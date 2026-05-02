@@ -51,14 +51,20 @@ app.use(helmet({
 app.use(mongoSanitize());
 app.use(generalLimiter);
 
-// 3. CORS Configuration (Permissive for Vercel)
+// 3. CORS Configuration (Permissive for Vercel/Preview)
 app.use(cors({
-  origin: true, // Echo back the origin to allow any subdomain (Vercel/Local)
+  origin: (origin, callback) => {
+    // Allow any origin for preview deployments and local development
+    callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-CSRF-Token'],
   maxAge: 86400,
 }));
+
+// Handle OPTIONS preflight for all routes
+app.options('*', cors());
 
 // 4. CSRF Protection (Custom Header Enforcement)
 // This is more robust for APIs than traditional token-based CSRF
@@ -94,11 +100,16 @@ app.use('/uploads', (req, res, next) => {
   next();
 }, express.static(path.join(process.cwd(), 'uploads')));
 
-// 7. API Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/chat', chatRoutes);
-app.use('/api/civic', civicRoutes);
-app.use('/api/system', systemRoutes);
+// 7. API Routes (Mounted at both /api and root to handle various proxy configurations)
+const mountRoutes = (base) => {
+  app.use(`${base}/auth`, authRoutes);
+  app.use(`${base}/chat`, chatRoutes);
+  app.use(`${base}/civic`, civicRoutes);
+  app.use(`${base}/system`, systemRoutes);
+};
+
+mountRoutes('/api');
+mountRoutes(''); // Fallback for when /api is already stripped by Vercel/Proxy
 
 // 8. Serve Frontend in Production
 if (env.NODE_ENV === 'production') {

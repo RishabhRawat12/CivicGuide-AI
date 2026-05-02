@@ -32,7 +32,7 @@ const envSchema = z.object({
 
   // Auth (CRITICAL: No default for JWT_SECRET in production)
   JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters'),
-  COOKIE_SECRET: z.string().min(32, 'COOKIE_SECRET must be at least 32 characters'),
+  COOKIE_SECRET: z.string().min(32, 'COOKIE_SECRET must be at least 32 characters').default('civicguide_pulse_cookie_secret_long_string_2026'),
 
   // Feature Flags
   USE_LEGACY_AI_LOGIC: z.enum(['true', 'false']).default('false').transform(v => v === 'true'),

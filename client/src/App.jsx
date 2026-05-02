@@ -12,6 +12,7 @@ import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { UserProvider, useUser } from './context/UserContext';
+import { FiZap } from 'react-icons/fi';
 import './index.css';
 
 // ── Eager loads (critical path) ──

@@ -64,10 +64,7 @@ const initializeFirebase = () => {
     }
   } catch (error) {
     winston.error('❌ Firebase initialization failed:', { error: error.message });
-    if (env.NODE_ENV === 'production') {
-      // Critical failure in production should stop the app
-      process.exit(1);
-    }
+    // Never crash — let individual auth routes return 503 instead
   }
 };
 

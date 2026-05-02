@@ -6,7 +6,7 @@ import { getChecklist, getJourney } from '../services/api';
 import VotingJourney from '../components/VotingJourney';
 import SmartChecklist from '../components/SmartChecklist';
 import {
-  FiArrowRight, FiTrendingUp, FiCpu, FiActivity, FiZap, FiTarget
+  FiArrowRight, FiTrendingUp, FiCpu, FiActivity, FiZap, FiTarget, FiShield
 } from 'react-icons/fi';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.07 } } };

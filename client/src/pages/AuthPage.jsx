@@ -76,7 +76,10 @@ export default function AuthPage() {
       navigate(user.profileCompleted ? '/dashboard' : '/setup');
     } catch (err) {
       console.error('Auth Error:', err);
-      toast.error(err.response?.data?.error || err.message || 'Authentication failed.');
+      const msg = typeof err.response?.data?.error === 'string'
+        ? err.response.data.error
+        : (typeof err.message === 'string' ? err.message : 'Authentication failed.');
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
@@ -99,7 +102,10 @@ export default function AuthPage() {
       if (err.code === 'auth/popup-closed-by-user') {
         toast.error('Sign-in popup was closed.');
       } else {
-        toast.error(err.response?.data?.error || err.message || 'Google sign-in failed.');
+        const msg = typeof err.response?.data?.error === 'string'
+          ? err.response.data.error
+          : (typeof err.message === 'string' ? err.message : 'Google sign-in failed.');
+        toast.error(msg);
       }
     } finally {
       setGoogleLoading(false);

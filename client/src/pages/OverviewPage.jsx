@@ -6,11 +6,11 @@ import { getChecklist, getJourney } from '../services/api';
 import VotingJourney from '../components/VotingJourney';
 import SmartChecklist from '../components/SmartChecklist';
 import {
-  FiArrowRight, FiTrendingUp
+  FiArrowRight, FiTrendingUp, FiCpu, FiActivity, FiZap, FiTarget
 } from 'react-icons/fi';
 
 const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.07 } } };
-const item = { hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } };
+const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } };
 
 export default function OverviewPage() {
   const { user, checklist, journey } = useUser();
@@ -56,118 +56,136 @@ export default function OverviewPage() {
     : rawStatus;
 
   const STATUS_MAP = {
-    registered:     { label: 'Registered',      emoji: '✅', color: 'text-secondary' },
-    applied:        { label: 'Applied',          emoji: '⏳', color: 'text-blue-500' },
-    not_registered: { label: 'Not Registered',   emoji: '❌', color: 'text-red-500' },
-    ready:          { label: 'Ready to Vote',    emoji: '🎉', color: 'text-secondary' },
-    in_progress:    { label: 'In Progress',      emoji: '🔄', color: 'text-blue-500' },
-    not_started:    { label: 'Getting Started',  emoji: '🚀', color: 'text-primary' },
+    registered:     { label: 'Authorized',      icon: <FiShield />, color: 'text-primary' },
+    applied:        { label: 'Syncing',         icon: <FiActivity />, color: 'text-cyan-400' },
+    not_registered: { label: 'Deauthorized',    icon: <FiZap />, color: 'text-red-500' },
+    ready:          { label: 'Protocol Ready',   icon: <FiTarget />, color: 'text-primary' },
+    in_progress:    { label: 'Processing',      icon: <FiCpu />, color: 'text-purple-500' },
+    not_started:    { label: 'Initialize',      icon: <FiZap />, color: 'text-primary' },
   };
   const statusInfo = STATUS_MAP[derivedStatus] || STATUS_MAP.not_started;
 
   const quickLinks = [
-    { to: '/dashboard/timeline', iconEmoji: '📅', label: 'Timeline', desc: 'Election deadlines' },
-    { to: '/dashboard/chat', iconEmoji: '🤖', label: 'AI Chat', desc: 'Ask anything' },
-    { to: '/dashboard/booth', iconEmoji: '📍', label: 'Booth Guide', desc: 'Find station' },
-    { to: '/dashboard/scenarios', iconEmoji: '🎭', label: 'Scenarios', desc: 'Simulate voting' },
-    { to: '/dashboard/quiz', iconEmoji: '🧠', label: 'Learn & Quiz', desc: 'Test knowledge' },
-    { to: '/dashboard/profile', iconEmoji: '👤', label: 'My Profile', desc: 'Manage account' },
+    { to: '/dashboard/timeline', icon: <FiActivity />, label: 'Pulse Timeline', desc: 'Deadlines & Windows' },
+    { to: '/dashboard/chat', icon: <FiCpu />, label: 'Neural Chat', desc: 'Query AI Assistant' },
+    { to: '/dashboard/booth', icon: <FiTarget />, label: 'Node Locator', desc: 'Find Polling Node' },
+    { to: '/dashboard/scenarios', icon: <FiZap />, label: 'Simulations', desc: 'Test Vote Protocol' },
+    { to: '/dashboard/quiz', icon: <FiActivity />, label: 'Skill Check', desc: 'Verify Knowledge' },
+    { to: '/dashboard/profile', icon: <FiTarget />, label: 'User Identity', desc: 'Manage Core Profile' },
   ];
 
   return (
-    <motion.div variants={container} initial="hidden" animate="show" className="space-y-6">
+    <motion.div variants={container} initial="hidden" animate="show" className="space-y-8">
+      {/* Hero Welcome Card */}
       <motion.div variants={item}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/20 via-bg-card to-secondary/10 border border-border p-6 lg:p-8">
-        <div className="relative flex flex-col lg:flex-row items-start lg:items-center gap-6">
+        className="relative overflow-hidden rounded-[2rem] bg-white/[0.02] border border-white/5 p-8 lg:p-12 shadow-2xl">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-secondary/10 blur-[80px]" />
+        
+        <div className="relative flex flex-col lg:flex-row items-start lg:items-center gap-12">
           <div className="flex-1">
-            <p className="text-text-muted text-sm mb-1">Welcome back,</p>
-            <h1 className="text-2xl lg:text-3xl font-bold mb-2">
-              {user?.name} <span className="inline-block animate-bounce">👋</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest mb-6">
+              <FiZap className="animate-pulse" /> Identity Sync Online
+            </div>
+            <h1 className="text-4xl lg:text-5xl font-black tracking-tighter mb-4 uppercase">
+              Agent <span className="gradient-text">{user?.name?.split(' ')[0]}</span>
             </h1>
-            <p className="text-text-secondary text-sm max-w-md">
+            <p className="text-text-secondary text-base max-w-md font-medium leading-relaxed">
               {user?.isFirstTimeVoter
-                ? "Your first election is a big milestone. Let's make sure you're fully prepared."
-                : "Let's continue your journey. Every step counts toward a stronger democracy!"}
+                ? "First-time entry protocol detected. Initializing comprehensive civic onboarding."
+                : "Continuous engagement verified. Resuming democratic synchronization protocol."}
             </p>
-            <div className="flex flex-wrap gap-2 mt-4">
-              <span className="text-xs px-3 py-1 rounded-full bg-bg-elevated border border-border text-text-secondary">
-                📍 {user?.state}
+            <div className="flex flex-wrap gap-3 mt-8">
+              <span className="text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full bg-white/5 border border-white/10 text-text-secondary">
+                Region: {user?.state}
               </span>
-              <span className="text-xs px-3 py-1 rounded-full bg-bg-elevated border border-border text-text-secondary">
-                {statusInfo.emoji} {statusInfo.label}
+              <span className={`text-[10px] font-black uppercase tracking-widest px-4 py-2 rounded-full bg-white/5 border border-white/10 ${statusInfo.color} flex items-center gap-2`}>
+                {statusInfo.label}
               </span>
             </div>
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="progress-ring-container">
-              <svg width="136" height="136" viewBox="0 0 136 136">
+            <div className="progress-ring-container relative">
+              <svg width="160" height="160" viewBox="0 0 160 160" className="drop-shadow-[0_0_15px_rgba(0,242,255,0.2)]">
                 <defs>
-                  <linearGradient id="tricolorRing" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#FF9933" />
-                    <stop offset="50%" stopColor="#FFFFFF" />
-                    <stop offset="100%" stopColor="#138808" />
+                  <linearGradient id="cyberRing" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#00F2FF" />
+                    <stop offset="100%" stopColor="#7000FF" />
                   </linearGradient>
                 </defs>
-                <circle cx="68" cy="68" r={radius} fill="none" className="progress-ring-bg" strokeWidth="7" />
-                <motion.circle cx="68" cy="68" r={radius} fill="none"
-                  stroke="url(#tricolorRing)" strokeWidth="7" strokeLinecap="round"
-                  strokeDasharray={circumference}
-                  initial={{ strokeDashoffset: circumference }}
-                  animate={{ strokeDashoffset: offset }}
-                  transition={{ duration: 1.5, ease: 'easeOut', delay: 0.3 }}
+                <circle cx="80" cy="80" r="70" fill="none" className="stroke-white/5" strokeWidth="8" />
+                <motion.circle cx="80" cy="80" r="70" fill="none"
+                  stroke="url(#cyberRing)" strokeWidth="8" strokeLinecap="round"
+                  strokeDasharray={2 * Math.PI * 70}
+                  initial={{ strokeDashoffset: 2 * Math.PI * 70 }}
+                  animate={{ strokeDashoffset: (2 * Math.PI * 70) - (score / 100) * (2 * Math.PI * 70) }}
+                  transition={{ duration: 2, ease: 'circOut', delay: 0.5 }}
                   className="progress-ring-fill" />
               </svg>
-              <div className="absolute text-center">
-                <motion.span className="text-2xl font-bold gradient-text"
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <motion.span className="text-4xl font-black gradient-text tracking-tighter"
+                  initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 1 }}>
                   {score}%
                 </motion.span>
-                <p className="text-text-muted text-[10px]">Readiness</p>
+                <p className="text-text-muted text-[8px] font-black uppercase tracking-[0.2em]">Sync Level</p>
               </div>
             </div>
-            <p className="text-xs text-text-secondary mt-2 flex items-center gap-1">
-              <FiTrendingUp size={12} className="text-primary" /> Voter Readiness
+            <p className="text-[10px] font-black uppercase tracking-widest text-text-muted mt-4 flex items-center gap-2">
+              <FiTrendingUp className="text-primary" /> Core Readiness Index
             </p>
           </div>
         </div>
       </motion.div>
 
-      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div className="glass-card-static p-4">
-          <p className="text-text-muted text-xs uppercase tracking-wider">Journey Steps</p>
-          <p className="text-2xl font-bold text-primary mt-1">{journeySteps}</p>
+      {/* Metric Cards */}
+      <motion.div variants={item} className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="glass-card p-6 bg-white/[0.01]">
+          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Journey Nodes</p>
+          <p className="text-3xl font-black tracking-tighter text-primary mt-2">{journeySteps}</p>
         </div>
-        <div className="glass-card-static p-4">
-          <p className="text-text-muted text-xs uppercase tracking-wider">Tasks Done</p>
-          <p className="text-2xl font-bold text-secondary mt-1">
-            {checklistProgress.completed}<span className="text-text-muted text-sm">/{checklistProgress.total}</span>
+        <div className="glass-card p-6 bg-white/[0.01]">
+          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Task Completion</p>
+          <p className="text-3xl font-black tracking-tighter text-white mt-2">
+            {checklistProgress.completed}<span className="text-text-muted text-sm font-medium">/{checklistProgress.total}</span>
           </p>
         </div>
-        <div className="glass-card-static p-4">
-          <p className="text-text-muted text-xs uppercase tracking-wider">Current Status</p>
-          <p className={`text-sm font-semibold mt-1 ${statusInfo.color}`}>
-            {statusInfo.emoji} {statusInfo.label}
-          </p>
+        <div className="glass-card p-6 bg-white/[0.01]">
+          <p className="text-[10px] font-black uppercase tracking-widest text-text-muted">Deployment Status</p>
+          <div className={`flex items-center gap-2 mt-2 font-black text-sm uppercase tracking-widest ${statusInfo.color}`}>
+            {statusInfo.label}
+          </div>
         </div>
       </motion.div>
 
-      <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <VotingJourney />
-        <SmartChecklist onProgressChange={handleChecklistUpdate} />
+      {/* Main Sections */}
+      <motion.div variants={item} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="glass-card p-8 border-white/5">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-8 flex items-center gap-2">
+            <FiActivity /> Linear Journey Projection
+          </h2>
+          <VotingJourney />
+        </div>
+        <div className="glass-card p-8 border-white/5">
+          <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-8 flex items-center gap-2">
+            <FiTarget /> Operational Checklist
+          </h2>
+          <SmartChecklist onProgressChange={handleChecklistUpdate} />
+        </div>
       </motion.div>
 
-      <motion.div variants={item}>
-        <h2 className="text-lg font-semibold mb-4 text-text-primary">Recommended Actions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {quickLinks.map(({ to, iconEmoji, label, desc }) => (
+      {/* Quick Actions */}
+      <motion.div variants={item} className="pb-12">
+        <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-white mb-6">Execution Terminals</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {quickLinks.map(({ to, icon, label, desc }) => (
             <Link key={to} to={to}>
-              <motion.div whileHover={{ y: -3 }} className="glass-card p-4 group cursor-pointer h-full">
-                <div className="w-10 h-10 rounded-xl bg-bg-elevated flex items-center justify-center mb-3">
-                  <span className="text-lg">{iconEmoji}</span>
+              <motion.div whileHover={{ y: -5, scale: 1.02 }} className="glass-card p-6 group cursor-pointer h-full border-white/5 hover:border-primary/40 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center mb-5 group-hover:bg-primary/10 group-hover:text-primary transition-all text-xl">
+                  {icon}
                 </div>
-                <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{label}</h3>
-                <p className="text-xs text-text-muted mt-1">{desc}</p>
+                <h3 className="text-sm font-black uppercase tracking-tight group-hover:text-primary transition-colors">{label}</h3>
+                <p className="text-xs text-text-muted mt-2 font-medium leading-relaxed">{desc}</p>
               </motion.div>
             </Link>
           ))}

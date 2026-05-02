@@ -33,27 +33,26 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const TranslatorPage = lazy(() => import('./pages/TranslatorPage'));
 
 // ── Premium Loading Spinner ──
-function LoadingScreen({ text = 'Loading' }) {
+function LoadingScreen({ text = 'Initializing' }) {
   return (
-    <div className="min-h-screen bg-bg-dark flex items-center justify-center" role="alert" aria-live="assertive" aria-busy="true">
+    <div className="min-h-screen bg-[#050505] flex items-center justify-center" role="alert" aria-live="assertive" aria-busy="true">
       <div className="text-center">
-        <div className="relative w-14 h-14 mx-auto mb-5" aria-hidden="true">
+        <div className="relative w-16 h-16 mx-auto mb-8" aria-hidden="true">
           {/* Outer ring */}
-          <div className="absolute inset-0 rounded-2xl border-2 border-primary/20 animate-pulse" />
+          <div className="absolute inset-0 rounded-2xl border-2 border-primary/10 animate-pulse" />
           {/* Spinning ring */}
-          <div className="absolute inset-0 rounded-2xl border-2 border-transparent border-t-primary animate-spin" style={{ animationDuration: '0.8s' }} />
+          <div className="absolute inset-0 rounded-2xl border-2 border-transparent border-t-primary animate-spin" style={{ animationDuration: '0.6s' }} />
           {/* Icon */}
-          <div className="absolute inset-0 flex items-center justify-center text-xl">
-            🗳️
+          <div className="absolute inset-0 flex items-center justify-center text-2xl text-primary drop-shadow-[0_0_10px_rgba(0,242,255,0.4)]">
+            <FiZap />
           </div>
         </div>
-        <p className="text-text-muted text-sm font-medium">{text}</p>
-        <div className="flex items-center justify-center gap-1 mt-2" aria-hidden="true">
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
-          <span className="w-1.5 h-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
+        <p className="text-text-muted text-[10px] uppercase tracking-[0.3em] font-black">{text}</p>
+        <div className="flex items-center justify-center gap-1.5 mt-4" aria-hidden="true">
+          <span className="w-1 h-1 rounded-full bg-primary animate-bounce" style={{ animationDelay: '0ms' }} />
+          <span className="w-1 h-1 rounded-full bg-primary animate-bounce" style={{ animationDelay: '150ms' }} />
+          <span className="w-1 h-1 rounded-full bg-primary animate-bounce" style={{ animationDelay: '300ms' }} />
         </div>
-        <span className="sr-only">{text}, please wait. This screen will automatically update once loaded.</span>
       </div>
     </div>
   );
@@ -147,11 +146,15 @@ function App() {
           position="top-right"
           toastOptions={{
             style: {
-              background: 'var(--color-bg-card)',
-              color: 'var(--color-text-primary)',
-              border: '1px solid var(--color-border)',
-              borderRadius: '12px',
-              fontSize: '14px',
+              background: 'rgba(10, 10, 12, 0.95)',
+              color: '#F8FAFC',
+              border: '1px solid rgba(0, 242, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              borderRadius: '100px',
+              fontSize: '12px',
+              fontWeight: '700',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
             },
             duration: 3000,
           }}

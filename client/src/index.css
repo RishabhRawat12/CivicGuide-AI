@@ -31,63 +31,60 @@
 }
 
 :root {
-  --color-primary: #E65100;
-  /* Deep Saffron */
-  --color-primary-glow: #FF6D00;
-  --color-primary-dark: #BF360C;
-  --color-secondary: #1B5E20;
-  /* India Green */
-  --color-secondary-glow: #2E7D32;
-  --color-accent: #000080;
-  /* Navy / Ashoka Blue */
-  --color-accent-glow: #1A237E;
-  --color-warning: #DC2626;
+  --color-primary: #00F2FF;
+  /* Electric Cyan */
+  --color-primary-glow: rgba(0, 242, 255, 0.5);
+  --color-primary-dark: #00B4D8;
+  --color-secondary: #7000FF;
+  /* Deep Purple */
+  --color-secondary-glow: rgba(112, 0, 255, 0.4);
+  --color-accent: #FF00E5;
+  /* Neon Pink */
+  --color-accent-glow: rgba(255, 0, 229, 0.3);
+  --color-warning: #FF3D00;
 
-  --color-bg-dark: #FFFAF5;
-  --color-bg-card: #FFFFFF;
-  --color-bg-elevated: #FFF3E0;
-  --color-bg-input: #FFFFFF;
+  --color-bg-dark: #050505;
+  --color-bg-card: #0F111A;
+  --color-bg-elevated: #161925;
+  --color-bg-input: #1A1D2D;
 
-  --color-text-primary: #1A1A1A;
-  --color-text-secondary: #5D4037;
-  --color-text-muted: #8D6E63;
+  --color-text-primary: #FFFFFF;
+  --color-text-secondary: #B0B0B0;
+  --color-text-muted: #606060;
 
-  --color-border: #FFCCBC;
-  --color-border-glow: #FF9933;
+  --color-border: #1A1D2D;
+  --color-border-glow: #00F2FF44;
 
-  --glass-bg: rgba(255, 255, 255, 0.92);
-  --glass-static-bg: #FFFFFF;
-  --chat-assistant-bg: #FFF3E0;
+  --glass-bg: rgba(15, 17, 26, 0.7);
+  --glass-static-bg: #0F111A;
+  --chat-assistant-bg: #161925;
 }
 
 .dark {
-  --color-primary: #FF9933;
-  /* Bright Saffron */
-  --color-primary-glow: #FFB74D;
-  --color-primary-dark: #E65100;
-  --color-secondary: #4CAF50;
-  /* Bright India Green */
-  --color-secondary-glow: #66BB6A;
-  --color-accent: #5C6BC0;
-  /* Ashoka Blue */
-  --color-accent-glow: #7986CB;
-  --color-warning: #EF4444;
+  --color-primary: #00F2FF;
+  --color-primary-glow: rgba(0, 242, 255, 0.6);
+  --color-primary-dark: #00D1FF;
+  --color-secondary: #9D50FF;
+  --color-secondary-glow: rgba(157, 80, 255, 0.5);
+  --color-accent: #FF5EFA;
+  --color-accent-glow: rgba(255, 94, 250, 0.4);
+  --color-warning: #FF5252;
 
-  --color-bg-dark: #0A0A0A;
-  --color-bg-card: #141414;
-  --color-bg-elevated: #1C1C1C;
-  --color-bg-input: #1E1E1E;
+  --color-bg-dark: #020204;
+  --color-bg-card: #0A0A0C;
+  --color-bg-elevated: #121214;
+  --color-bg-input: #18181B;
 
-  --color-text-primary: #F5F5F5;
-  --color-text-secondary: #BDBDBD;
-  --color-text-muted: #757575;
+  --color-text-primary: #F8FAFC;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
 
-  --color-border: #2A2A2A;
-  --color-border-glow: #FF993333;
+  --color-border: #1E1E24;
+  --color-border-glow: #00F2FF22;
 
-  --glass-bg: linear-gradient(135deg, rgba(20, 20, 20, 0.85), rgba(28, 28, 28, 0.65));
-  --glass-static-bg: rgba(20, 20, 20, 0.95);
-  --chat-assistant-bg: linear-gradient(135deg, rgba(28, 28, 28, 0.95), rgba(20, 20, 20, 0.9));
+  --glass-bg: linear-gradient(135deg, rgba(10, 10, 12, 0.8), rgba(18, 18, 20, 0.6));
+  --glass-static-bg: rgba(10, 10, 12, 0.95);
+  --chat-assistant-bg: #121214;
 }
 
 /* ============================================
@@ -143,18 +140,34 @@
 
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), transparent, rgba(112, 0, 255, 0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
 }
 
 .glass-card:hover {
-  border-color: var(--color-primary-glow);
-  box-shadow: 0 10px 15px -3px rgba(15, 61, 129, 0.1), 0 4px 6px -2px rgba(15, 61, 129, 0.05);
-  transform: translateY(-2px);
+  border-color: rgba(0, 242, 255, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 242, 255, 0.15);
+  transform: translateY(-4px);
 }
 
 .glass-card-static {
@@ -169,14 +182,14 @@
    ============================================ */
 
 .gradient-text {
-  background: linear-gradient(135deg, #FF9933, #138808);
+  background: linear-gradient(135deg, #00F2FF, #7000FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .gradient-text-warm {
-  background: linear-gradient(135deg, #FF6D00, #FF9933);
+  background: linear-gradient(135deg, #FF00E5, #7000FF);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -187,27 +200,27 @@
    ============================================ */
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
-  color: white;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #000;
   border: none;
   padding: 12px 28px;
-  border-radius: 12px;
-  font-weight: 600;
+  border-radius: 100px;
+  font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(15, 61, 129, 0.2);
+  box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 6px 12px rgba(15, 61, 129, 0.3);
-  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.5), 0 0 10px rgba(112, 0, 255, 0.3);
+  transform: translateY(-2px) scale(1.02);
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.98);
 }
 
 .btn-secondary {
@@ -215,16 +228,17 @@
   color: var(--color-primary);
   border: 1px solid var(--color-primary);
   padding: 12px 28px;
-  border-radius: 12px;
-  font-weight: 600;
+  border-radius: 100px;
+  font-weight: 700;
   font-size: 15px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-  background: rgba(15, 61, 129, 0.05);
-  box-shadow: 0 4px 6px rgba(15, 61, 129, 0.1);
+  background: rgba(0, 242, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+  border-color: var(--color-primary-dark);
 }
 
 /* ============================================

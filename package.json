@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "VotePath AI – Personalized Election Journey Assistant",
   "scripts": {
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "cd server && npm run dev",
+    "dev": "concurrently \"npm run backend\" \"npm run client\"",
+    "backend": "cd new-backend && npm run dev",
     "client": "cd client && npm run dev",
     "build": "cd client && npm install && npm run build",
-    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+    "install-all": "npm install && cd new-backend && npm install && cd ../client && npm install"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
